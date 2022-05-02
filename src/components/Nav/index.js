@@ -5,7 +5,9 @@ function Nav(props) {
     const {
         categories = [],
         setCurrentCategory,
-        currentCategory
+        currentCategory,
+        contactSelected,
+        setContactSelected
     } = props;
     // useEffect, first parameter is a callback function. Second parameter is the what will trigger a rerender if changed (ie currentCategory)
     useEffect(() => {
@@ -25,17 +27,20 @@ function Nav(props) {
             <nav>
                 <ul className="flex-row">
                     <li className="mx-2">
-                        <a href="#about" data-testid="about">
+                        <a href="#about" data-testid="about"
+                        onClick={() => setContactSelected(false)}>
                             About me
                         </a>
                     </li>
                     <li>
-                        <span>Contact</span>
+                        <span className={`mx-2 ${contactSelected && 'navActive'}`}  onClick={() => setContactSelected(true)}
+                        >Contact</span>
                     </li>
                     {categories.map((category) => (
                         // if currentCategory name is category.name, then the 'navActive' will be evaluated. 
-                        <li className={`mx-1 ${currentCategory.name === category.name && 'navActive'}`} key={category.name}>
-                            <span onClick={() => setCurrentCategory(category)}>
+                        <li className={`mx-1 ${currentCategory.name === category.name && !contactSelected && 'navActive'}`} key={category.name}>
+                            <span onClick={() => {setCurrentCategory(category)
+                                setContactSelected(false)}}>
                                 {capitalizeFirstLetter(category.name)}
                             </span>
                         </li>
